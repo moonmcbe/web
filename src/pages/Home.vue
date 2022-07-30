@@ -40,6 +40,7 @@ const keyword = ref('')
 
 const query = async () => {
   loadingBar.start()
+  data.value = []
   const { data: res } = await queryApi(keyword.value, keyword.value)
   data.value = res.data
   loadingBar.finish()

@@ -9,6 +9,7 @@ declare module '*.vue' {
 
 interface ImportMetaEnv {
   readonly 'VITE_APP_ApiBaseurl': string
+  readonly 'MODE': string | 'development'
   // 更多环境变量...
 }
 
