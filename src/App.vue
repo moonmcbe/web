@@ -3,7 +3,10 @@
 </script>
 
 <template>
-  <router-view></router-view>
+  <n-loading-bar-provider>
+    <!-- <content /> -->
+    <router-view></router-view>
+  </n-loading-bar-provider>
 </template>
 
 <style lang="less" scoped>
