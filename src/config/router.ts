@@ -12,6 +12,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Submit',
     component: () =>
       import(/* webpackChunkName: "home" */ '../pages/Submit.vue')
+  },
+  {
+    path: '/validation',
+    name: 'Validation',
+    component: () =>
+      import(/* webpackChunkName: "home" */ '../pages/Validation.vue')
   }
 ]
 

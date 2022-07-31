@@ -146,6 +146,7 @@ const handleFinish = ({
 </script>
 
 <template>
+  <steps />
   <n-form ref="formRef" :model="model" :rules="rules">
     <n-form-item path="name" label="游戏id">
       <n-input v-model:value="model.name" @keydown.enter.prevent />
