@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import { defineComponent, ref } from 'vue'
+import { ref } from 'vue'
 import {
   FormInst,
-  FormItemInst,
   FormItemRule,
   useMessage,
   FormRules
 } from 'naive-ui'
 import type { UploadFileInfo } from 'naive-ui'
 import submitApi from '../apis/submit'
+import { useRouter } from 'vue-router'
 
 interface ModelType {
   name: string | null
@@ -18,6 +18,7 @@ interface ModelType {
   upload: string | null
 }
 
+const router = useRouter()
 const formRef = ref<FormInst | null>(null)
 const message = useMessage()
 const model = ref<ModelType>({
@@ -99,7 +100,10 @@ function handleValidateButtonClick(e: MouseEvent) {
       // message.success('验证成功')
       const { data: res } = await submitApi(model.value)
       if (res.code == 200) {
-        // 成功
+        message.success('提交成功')
+        router.push({
+          path: `/validation/${res.id}`
+        })
       }
     } else {
       console.log(errors)

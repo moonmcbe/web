@@ -14,7 +14,7 @@ const routes: Array<RouteRecordRaw> = [
       import(/* webpackChunkName: "home" */ '../pages/Submit.vue')
   },
   {
-    path: '/validation',
+    path: '/validation/:id',
     name: 'Validation',
     component: () =>
       import(/* webpackChunkName: "home" */ '../pages/Validation.vue')
