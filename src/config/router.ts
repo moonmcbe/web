@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { useMessage } from 'naive-ui'
+
+const message = useMessage()
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -54,7 +57,7 @@ const router = createRouter({
 
 router.beforeEach((e) => {
   if (!localStorage.getItem('token')) {
-    return false
+    return '/login'
   }
 })
 
