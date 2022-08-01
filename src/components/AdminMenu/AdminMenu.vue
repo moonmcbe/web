@@ -45,23 +45,25 @@ const collapsed = ref(true)
 </script>
 
 <template>
-  <n-layout-sider
-    bordered
-    collapse-mode="width"
-    :collapsed-width="64"
-    :width="240"
-    :collapsed="collapsed"
-    show-trigger
-    @collapse="collapsed = true"
-    @expand="collapsed = false"
-  >
-    <n-menu
-      :collapsed="collapsed"
+  <n-layout has-sider>
+    <n-layout-sider
+      bordered
+      collapse-mode="width"
       :collapsed-width="64"
-      :collapsed-icon-size="22"
-      :options="menuOptions"
-    />
-  </n-layout-sider>
+      :width="240"
+      :collapsed="collapsed"
+      show-trigger
+      @collapse="collapsed = true"
+      @expand="collapsed = false"
+    >
+      <n-menu
+        :collapsed="collapsed"
+        :collapsed-width="64"
+        :collapsed-icon-size="22"
+        :options="menuOptions"
+      />
+    </n-layout-sider>
+  </n-layout>
 </template>
 
 <style lang="less" scoped>

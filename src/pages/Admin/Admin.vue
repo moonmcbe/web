@@ -27,5 +27,10 @@ if (!store.isLogin || store.permissions < 5) {
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-rows: 1fr;
+  grid-column-gap: 20px;
+  *,
+  :deep(*) {
+    overflow: unset !important;
+  }
 }
 </style>
