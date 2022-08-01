@@ -39,10 +39,11 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        name: 'Index',
+        name: 'Overview',
         component: () =>
-          import(/* webpackChunkName: "adminIndex" */ '../pages/Admin/Index.vue')
+          import(/* webpackChunkName: "adminOverview" */ '../pages/Admin/Overview.vue')
       }
+
     ]
   }
 ]
