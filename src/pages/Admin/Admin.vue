@@ -14,9 +14,18 @@ if (!store.isLogin || store.permissions < 5) {
 </script>
 
 <template>
-  admin
-  <router-view></router-view>
+  <div class="admin">
+    <admin-menu />
+    <div class="content">
+      <router-view></router-view>
+    </div>
+  </div>
 </template>
 
 <style lang="less" scoped>
+.admin {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr;
+}
 </style>

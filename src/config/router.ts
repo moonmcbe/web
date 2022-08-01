@@ -1,7 +1,4 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import { useMessage } from 'naive-ui'
-
-const message = useMessage()
 
 const routes: Array<RouteRecordRaw> = [
   {
