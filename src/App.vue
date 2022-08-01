@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { zhCN, dateZhCN } from 'naive-ui'
+import getUserInfo from './utils/getUserInfo'
+getUserInfo()
 </script>
 
 <template>

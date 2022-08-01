@@ -30,12 +30,32 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Login',
     component: () =>
       import(/* webpackChunkName: "home" */ '../pages/Login.vue')
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: () =>
+      import(/* webpackChunkName: "home" */ '../pages/Admin/Admin.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Index',
+        component: () =>
+          import(/* webpackChunkName: "home" */ '../pages/Admin/Index.vue')
+      }
+    ]
   }
 ]
 
 const router = createRouter({
   history: createWebHistory(),
   routes
+})
+
+router.beforeEach((e) => {
+  if (!localStorage.getItem('token')) {
+    return false
+  }
 })
 
 export default router

@@ -1,0 +1,11 @@
+<script lang="ts" setup>
+
+</script>
+
+<template>
+  admin
+  <router-view></router-view>
+</template>
+
+<style lang="less" scoped>
+</style>
