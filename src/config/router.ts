@@ -11,37 +11,37 @@ const routes: Array<RouteRecordRaw> = [
     path: '/submit',
     name: 'Submit',
     component: () =>
-      import(/* webpackChunkName: "home" */ '../pages/Submit.vue')
+      import(/* webpackChunkName: "submit" */ '../pages/Submit.vue')
   },
   {
     path: '/validation/:id',
     name: 'Validation',
     component: () =>
-      import(/* webpackChunkName: "home" */ '../pages/Validation.vue')
+      import(/* webpackChunkName: "validation" */ '../pages/Validation.vue')
   },
   {
     path: '/check/:id',
     name: 'Check',
     component: () =>
-      import(/* webpackChunkName: "home" */ '../pages/Check.vue')
+      import(/* webpackChunkName: "check" */ '../pages/Check.vue')
   },
   {
     path: '/login',
     name: 'Login',
     component: () =>
-      import(/* webpackChunkName: "home" */ '../pages/Login.vue')
+      import(/* webpackChunkName: "login" */ '../pages/Login.vue')
   },
   {
     path: '/admin',
     name: 'Admin',
     component: () =>
-      import(/* webpackChunkName: "home" */ '../pages/Admin/Admin.vue'),
+      import(/* webpackChunkName: "admin" */ '../pages/Admin/Admin.vue'),
     children: [
       {
         path: '',
         name: 'Index',
         component: () =>
-          import(/* webpackChunkName: "home" */ '../pages/Admin/Index.vue')
+          import(/* webpackChunkName: "adminIndex" */ '../pages/Admin/Index.vue')
       }
     ]
   }
