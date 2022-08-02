@@ -30,7 +30,7 @@ const menuOptions: MenuOption[] = [
         RouterLink,
         {
           to: {
-            path: '/admin/'
+            path: '/admin/audit'
           }
         },
         { default: () => '白名单审核' }
@@ -67,4 +67,7 @@ const collapsed = ref(true)
 </template>
 
 <style lang="less" scoped>
+* {
+  overflow: unset !important;
+}
 </style>

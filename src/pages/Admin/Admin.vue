@@ -15,7 +15,7 @@ if (!store.isLogin || store.permissions < 5) {
 
 <template>
   <div class="admin">
-    <admin-menu />
+    <admin-menu class="menu" />
     <div class="content">
       <router-view></router-view>
     </div>
@@ -28,8 +28,13 @@ if (!store.isLogin || store.permissions < 5) {
   grid-template-columns: auto 1fr;
   grid-template-rows: 1fr;
   grid-column-gap: 20px;
-  *,
-  :deep(*) {
+
+  .content {
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+  }
+  :deep(.menu *) {
     overflow: unset !important;
   }
 }

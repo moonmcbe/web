@@ -42,8 +42,13 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Overview',
         component: () =>
           import(/* webpackChunkName: "adminOverview" */ '../pages/Admin/Overview.vue')
+      },
+      {
+        path: 'audit',
+        name: 'Audit',
+        component: () =>
+          import(/* webpackChunkName: "adminAudit" */ '../pages/Admin/Audit.vue')
       }
-
     ]
   }
 ]
