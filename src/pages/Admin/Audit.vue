@@ -112,7 +112,7 @@ const allow = async (key: number, allow: boolean) => {
       message.success('成功')
       init()
     } else {
-      message.success('失败')
+      message.error('失败')
     }
   } else {
     showModal.value = true
@@ -126,7 +126,7 @@ const deny = async () => {
     message.success('成功')
     init()
   } else {
-    message.success('失败')
+    message.error('失败')
   }
 }
 
