@@ -2,8 +2,13 @@
 import { ref } from 'vue'
 import loginApi from '../apis/login'
 import { useMessage } from 'naive-ui'
+import getUserInfo from '@/utils/getUserInfo'
+import { useRouter } from 'vue-router'
+import { useStore } from '@/config/store'
 
 const message = useMessage()
+const router = useRouter()
+const store = useStore()
 
 const data = ref({
   qq: '',
@@ -15,6 +20,12 @@ const login = async () => {
   if (res.code == 200) {
     localStorage.setItem('token', res.token)
     message.success('登录成功')
+    getUserInfo()
+    if (store.permissions >= 5) {
+      router.push('/admin')
+    } else {
+      router.push('/')
+    }
   } else {
     if (res.msg) {
       message.error(res.msg)

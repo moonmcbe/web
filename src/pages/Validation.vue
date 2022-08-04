@@ -1,14 +1,25 @@
 <script lang="ts" setup>
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
 import validationApi from '../apis/validation'
 import { useMessage } from 'naive-ui'
+import { Copy } from '@icon-park/vue-next'
+import { useClipboard } from '@vueuse/core'
 
 const route = useRoute()
+const router = useRouter()
 const message = useMessage()
+const { copy } = useClipboard()
 
 const id = route.params.id
 const value = ref('')
+const href = ref(location.href)
+
+const copyHref = () => {
+  copy(location.href)
+}
+// 主动帮用户复制
+copyHref()
 
 const validation = async () => {
   const { data: res } = await validationApi(id as string, value.value)
@@ -17,6 +28,7 @@ const validation = async () => {
       message.success(res.msg)
     } else {
       message.success('提交成功，等待管理员审核')
+      router.push(`/check/${id}`)
     }
   } else {
     if (res.msg) {
@@ -32,6 +44,16 @@ const validation = async () => {
   <steps :current="2" />
   <div class="form">
     <p>请使用填写的qq号向群中的 人工智障 发送“获取验证码”</p>
+
+    <p>
+      若需退出当前界面，请复制链接，以便继续操作
+      <n-input-group @click="copyHref">
+        <n-input :value="href" />
+        <n-button>
+          <Copy />
+        </n-button>
+      </n-input-group>
+    </p>
     <n-form-item label="验证码">
       <n-input v-model:value="value" type="text" placeholder="请输入验证码" />
     </n-form-item>
