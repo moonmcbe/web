@@ -15,8 +15,8 @@ const props = defineProps({
 <template>
   <n-steps :current="current" :status="currentStatus" size="small">
     <n-step title="填写表单" />
-    <n-step title="验证qq号" />
-    <n-step title="管理员审核" />
+    <n-step title="验证QQ" />
+    <n-step title="管理审核" />
   </n-steps>
 </template>
 
@@ -25,5 +25,7 @@ const props = defineProps({
   margin-top: 8px;
   padding: 5px;
   box-sizing: border-box;
+  max-width: 320px;
+  overflow: hidden;
 }
 </style>
