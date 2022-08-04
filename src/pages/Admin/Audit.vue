@@ -121,7 +121,7 @@ const allow = async (key: number, allow: boolean) => {
 
 const deny = async () => {
   showModal.value = false
-  const { data: res } = await setApi(id.value, false)
+  const { data: res } = await setApi(id.value, false, cause.value)
   if (res.code == 200) {
     message.success('成功')
     init()

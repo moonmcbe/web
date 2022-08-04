@@ -19,6 +19,7 @@ const data = ref<{
   status: number
   date: Date
   judge: number
+  cause?: string
 } | null>(null)
 
 const check = async () => {
@@ -34,9 +35,23 @@ check()
 
 <template>
   <steps :current="3" />
-  <n-result status="info" title="申请成功" description="请等待管理员审核"></n-result>
-  <div class="name">{{ data?.name }}</div>
-  <div class="date">{{ dayjs(data?.date).format('MM-DD HH:mm') }}</div>
+  <template v-if="data?.status == 1">
+    <n-result status="info" title="申请成功" description="请等待管理员审核"></n-result>
+    <div class="name">{{ data?.name }}</div>
+    <div class="date">{{ dayjs(data?.date).format('MM-DD HH:mm') }}</div>
+  </template>
+  <template v-if="data?.status == 2">
+    <n-result status="success" title="已通过" description="祝您玩的开心~"></n-result>
+    <div class="name">{{ data?.name }}</div>
+    <div class="date">{{ dayjs(data?.date).format('MM-DD HH:mm') }}</div>
+  </template>
+  <template v-if="data?.status == 3">
+    <n-result status="500" title="审核未通过" description="建议您修改后重新尝试，若有异议请联系管理"></n-result>
+    <div class="name">{{ data?.name }}</div>
+    <div class="judge">审核人ID:{{ data?.judge }}</div>
+    <div class="cause" v-if="data?.cause">原因:{{ data?.cause }}</div>
+    <div class="date">{{ dayjs(data?.date).format('MM-DD HH:mm') }}</div>
+  </template>
 </template>
 
 <style lang="less" scoped>
@@ -45,7 +60,9 @@ check()
 }
 
 .name,
-.date {
+.date,
+.cause,
+.judge {
   text-align: center;
 }
 .name {

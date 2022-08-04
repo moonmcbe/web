@@ -5,10 +5,10 @@ export const get = () => request({
   method: 'post'
 })
 
-export const set = (id: number, allow: boolean) => request({
+export const set = (id: number, allow: boolean, cause?: string) => request({
   url: '/admin/audit/set',
   method: 'post',
   data: {
-    id, allow
+    id, allow, cause
   }
 })

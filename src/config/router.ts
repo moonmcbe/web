@@ -59,8 +59,10 @@ const router = createRouter({
 })
 
 router.beforeEach((e) => {
-  if (!localStorage.getItem('token')) {
-    return '/login'
+  if (e.path.indexOf('/admin') != -1) {
+    if (!localStorage.getItem('token')) {
+      return '/login'
+    }
   }
 })
 
