@@ -2,6 +2,7 @@
 import { useStore } from '@/config/store'
 import { useRouter } from 'vue-router'
 import { useMessage } from 'naive-ui'
+import VConsole from 'vconsole'
 
 const store = useStore()
 const router = useRouter()
@@ -11,6 +12,9 @@ if (!store.isLogin || store.permissions < 5) {
   message.error('请先登录')
   router.push('/login')
 }
+
+new VConsole()
+
 </script>
 
 <template>
