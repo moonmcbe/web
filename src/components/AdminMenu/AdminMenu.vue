@@ -3,7 +3,7 @@ import { h, Component, ref } from 'vue'
 import type { MenuOption } from 'naive-ui'
 import { RouterLink } from 'vue-router'
 import { NIcon } from 'naive-ui'
-import { Home, Audit } from '@icon-park/vue-next'
+import { Home, Audit, User } from '@icon-park/vue-next'
 
 function renderIcon(icon: Component) {
   return () => h(NIcon, null, { default: () => h(icon) })
@@ -21,7 +21,7 @@ const menuOptions: MenuOption[] = [
         },
         { default: () => '首页' }
       ),
-    key: 'go-back-home',
+    key: 'home',
     icon: renderIcon(Home)
   },
   {
@@ -35,8 +35,22 @@ const menuOptions: MenuOption[] = [
         },
         { default: () => '白名单审核' }
       ),
-    key: 'go-to-work',
+    key: 'audit',
     icon: renderIcon(Audit)
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            path: '/admin/players'
+          }
+        },
+        { default: () => '玩家管理' }
+      ),
+    key: 'players',
+    icon: renderIcon(User)
   }
 ]
 
