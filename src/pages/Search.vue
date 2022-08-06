@@ -4,6 +4,9 @@ import { ref } from 'vue'
 import { useLoadingBar } from 'naive-ui'
 import type { DataTableColumns } from 'naive-ui'
 import dayjs from 'dayjs'
+import { useMessage } from 'naive-ui'
+
+const message = useMessage()
 
 const columns: DataTableColumns = [
   {
@@ -43,6 +46,12 @@ const query = async () => {
   data.value = []
   const { data: res } = await queryApi(keyword.value, keyword.value)
   data.value = res.data
+  if (res.code != 200) {
+    message.error('获取数据失败，请稍后再试')
+  }
+  if (res.data.length < 1) {
+    message.warning('未找到玩家')
+  }
   loadingBar.finish()
 }
 </script>
