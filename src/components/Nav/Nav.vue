@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <nav>
+  <nav @click="$router.push('/')">
     <img src="https://www.litf.com.cn/img/logo.d05ba22d.webp" />
     庄服白名单申请
   </nav>
