@@ -5,7 +5,7 @@
 <template>
   <nav @click="$router.push('/')">
     <img src="https://www.litf.com.cn/img/logo.d05ba22d.webp" />
-    庄服白名单申请
+    庄主基岩服
   </nav>
 </template>
 

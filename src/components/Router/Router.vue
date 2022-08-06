@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import { Right } from '@icon-park/vue-next'
+import { useStore } from '@/config/store'
+
+const store = useStore()
 </script>
 
 <template>
@@ -14,6 +17,14 @@ import { Right } from '@icon-park/vue-next'
     </router-link>
     <router-link to="/">
       常见问题
+      <Right size="20" bold />
+    </router-link>
+    <router-link v-if="!store.isLogin" to="/login">
+      登录
+      <Right size="20" bold />
+    </router-link>
+    <router-link class="admin" v-if="store.isLogin && store.permissions >= 5" to="/admin">
+      管理后台
       <Right size="20" bold />
     </router-link>
   </div>
@@ -47,6 +58,12 @@ import { Right } from '@icon-park/vue-next'
     }
     &:nth-child(3) {
       background-color: #8dc4ff;
+    }
+    &:nth-child(4) {
+      background-color: #d3aa73;
+    }
+    &.admin {
+      background-color: #ff9190;
     }
   }
 }
