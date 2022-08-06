@@ -5,6 +5,7 @@ import validationApi from '../apis/validation'
 import { useMessage } from 'naive-ui'
 import { Copy } from '@icon-park/vue-next'
 import { useClipboard } from '@vueuse/core'
+import checkApi from '../apis/check'
 
 const route = useRoute()
 const router = useRouter()
@@ -38,6 +39,18 @@ const validation = async () => {
     }
   }
 }
+
+const check = async () => {
+  const { data: res } = await checkApi(id as string)
+  if (res.code == 200) {
+    if (res.data.status != 0) {
+      router.push(`/check/${id}`)
+    }
+  } else {
+    message.error('数据获取失败，请稍后再试')
+  }
+}
+check()
 </script>
 
 <template>
@@ -48,7 +61,7 @@ const validation = async () => {
     <p>
       若需退出当前界面，请复制链接，以便继续操作
       <n-input-group @click="copyHref">
-        <n-input :value="href" />
+        <n-input :value="href" readonly />
         <n-button>
           <Copy />
         </n-button>
