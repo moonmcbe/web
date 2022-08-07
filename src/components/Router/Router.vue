@@ -66,6 +66,9 @@ const store = useStore()
     &:nth-child(4) {
       background-color: #d3aa73;
     }
+    &:nth-child(5) {
+      background-color: #f887e0;
+    }
     &.admin {
       background-color: #ff9190;
     }
