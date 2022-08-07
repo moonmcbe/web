@@ -48,7 +48,7 @@ const columns: DataTableColumns<Data> = [
   },
   {
     title: 'b站用户名',
-    key: 'bil_username'
+    key: 'bili_username'
   },
   {
     title: 'b站uid',
