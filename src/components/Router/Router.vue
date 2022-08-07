@@ -15,6 +15,10 @@ const store = useStore()
       玩家查询
       <Right size="20" bold />
     </router-link>
+    <a href="https://motd.mcxing.cn/detail/2" target="_blank">
+      服务器状态
+      <Right size="20" bold />
+    </a>
     <router-link to="/">
       常见问题
       <Right size="20" bold />
