@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { Right } from '@icon-park/vue-next'
 import { useStore } from '@/config/store'
+import { useMessage } from 'naive-ui'
 
 const store = useStore()
+const message = useMessage()
 </script>
 
 <template>
@@ -19,7 +21,7 @@ const store = useStore()
       服务器状态
       <Right size="20" bold />
     </a>
-    <router-link to="/">
+    <router-link to="/" @click="message.error('暂未开放')">
       常见问题
       <Right size="20" bold />
     </router-link>
