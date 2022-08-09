@@ -1,8 +1,11 @@
 import request from '../utils/request'
 
-export const get = () => request({
+export const get = (oldPlayer = false) => request({
   url: '/admin/players/get',
-  method: 'post'
+  method: 'post',
+  data: {
+    oldPlayer
+  }
 })
 
 export const set = (id: number, allow: boolean, cause?: string) => request({
