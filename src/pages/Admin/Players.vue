@@ -10,7 +10,7 @@ const keyword = ref('')
 const oldPlayer = ref(false)
 const filter = ref<Data[]>([])
 const pagination = ref({
-  page: 2,
+  page: 1,
   pageSize: 8,
   showSizePicker: true,
   pageSizes: [5, 8, 10],
