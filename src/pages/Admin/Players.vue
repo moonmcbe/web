@@ -52,7 +52,7 @@ watch([() => keyword.value, () => data.value], ([keyword, data]) => {
   } else {
     filter.value = data.filter(e => {
       return !(
-        (e.name || '')?.indexOf(keyword) == -1 &&
+        (e.name || '')?.toLowerCase().indexOf(keyword.toLowerCase()) == -1 &&
         (e.qq || '')?.indexOf(keyword) == -1 &&
         (e.id || '')?.toString().indexOf(keyword) == -1
       )
