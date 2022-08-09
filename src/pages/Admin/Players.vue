@@ -129,7 +129,7 @@ const columns: DataTableColumns<Data> = [
     title: '提交时间',
     key: 'date',
     render(row) {
-      return dayjs(row.date as any).format('MM-DD HH:mm:ss')
+      return dayjs(row.date as any).format('YYYY-MM-DD HH:mm:ss')
     }
   },
   {
