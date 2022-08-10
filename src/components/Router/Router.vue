@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { Right } from "@icon-park/vue-next";
-import { useStore } from "@/config/store";
-import { useMessage } from "naive-ui";
+import { Right } from '@icon-park/vue-next';
+import { useStore } from '@/config/store';
+import { useMessage } from 'naive-ui';
 
-const store = useStore();
-const message = useMessage();
+const store = useStore()
+const message = useMessage()
 </script>
 
 <template>
@@ -33,11 +33,7 @@ const message = useMessage();
       登录
       <Right size="20" bold />
     </router-link>
-    <router-link
-      class="admin"
-      v-if="store.isLogin && store.permissions >= 5"
-      to="/admin"
-    >
+    <router-link class="admin" v-if="store.isLogin && store.permissions >= 5" to="/admin">
       管理后台
       <Right size="20" bold />
     </router-link>
