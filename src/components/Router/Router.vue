@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { Right } from '@icon-park/vue-next';
-import { useStore } from '@/config/store';
-import { useMessage } from 'naive-ui';
+import { Right } from '@icon-park/vue-next'
+import { useStore } from '@/config/store'
+import { useMessage } from 'naive-ui'
 
 const store = useStore()
 const message = useMessage()
