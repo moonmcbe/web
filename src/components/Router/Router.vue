@@ -9,34 +9,14 @@ const message = useMessage()
 
 <template>
   <div class="router">
-    <router-link to="/submit">
-      白名单申请
-      <Right size="20" bold />
-    </router-link>
-    <router-link to="/search">
-      玩家查询
-      <Right size="20" bold />
-    </router-link>
-    <a href="https://moon.liyxi.tk/" target="_blank">
-      服务器封禁记录查询
-      <Right size="20" bold />
-    </a>
-    <a href="https://motd.mcxing.cn/detail/2" target="_blank">
-      服务器状态
-      <Right size="20" bold />
-    </a>
-    <router-link to="/" @click="message.error('暂未开放')">
-      常见问题
-      <Right size="20" bold />
-    </router-link>
-    <router-link v-if="!store.isLogin" to="/login">
-      登录
-      <Right size="20" bold />
-    </router-link>
-    <router-link class="admin" v-if="store.isLogin && store.permissions >= 5" to="/admin">
-      管理后台
-      <Right size="20" bold />
-    </router-link>
+    <Link to="/submit">白名单申请</Link>
+    <Link to="/submit">白名单申请</Link>
+    <Link to="/search">玩家查询</Link>
+    <Link useHref href="https://moon.liyxi.tk/">服务器封禁记录查询</Link>
+    <Link useHref href="https://motd.mcxing.cn/detail/2">服务器状态</Link>
+    <Link to="/" @click="message.error('暂未开放')">常见问题</Link>
+    <Link to="/login" v-if="!store.isLogin">登录</Link>
+    <Link to="/admin" v-if="store.isLogin && store.permissions >= 5" class="admin">管理后台</Link>
   </div>
 </template>
 
