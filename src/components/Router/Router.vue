@@ -10,7 +10,6 @@ const message = useMessage()
 <template>
   <div class="router">
     <Link to="/submit">白名单申请</Link>
-    <Link to="/submit">白名单申请</Link>
     <Link to="/search">玩家查询</Link>
     <Link useHref href="https://moon.liyxi.tk/">服务器封禁记录查询</Link>
     <Link useHref href="https://motd.mcxing.cn/detail/2">服务器状态</Link>
