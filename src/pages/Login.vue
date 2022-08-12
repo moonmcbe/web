@@ -12,11 +12,12 @@ const store = useStore()
 
 const data = ref({
   qq: '',
-  code: ''
+  code: '',
+  keepLogin: false
 })
 
 const login = async () => {
-  const { data: res } = await loginApi(data.value.qq.trim(), data.value.code.trim())
+  const { data: res } = await loginApi(data.value.qq.trim(), data.value.code.trim(), data.value.keepLogin)
   if (res.code == 200) {
     localStorage.setItem('token', res.token)
     message.success('登录成功')
@@ -43,6 +44,9 @@ const login = async () => {
   <n-form-item path="code" label="验证码">
     <n-input v-model:value="data.code" @keydown.enter.prevent />
   </n-form-item>
+  <n-checkbox v-model:checked="data.keepLogin">保持登录状态</n-checkbox>
+  <br />
+  <br />
   <n-button @click="login">登录</n-button>
 </template>
 
