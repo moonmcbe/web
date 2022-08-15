@@ -13,7 +13,7 @@ const message = useMessage()
     <Link to="/search">玩家查询</Link>
     <Link useHref href="https://moon.liyxi.tk/">服务器封禁记录查询</Link>
     <Link useHref href="https://motd.mcxing.cn/detail/2">服务器状态</Link>
-    <Link to="/" @click="message.error('暂未开放')">常见问题</Link>
+    <Link useHref href="https://www.litf.com.cn/p/11">常见问题</Link>
     <Link to="/login" v-if="!store.isLogin">登录</Link>
     <Link to="/admin" v-if="store.isLogin && store.permissions >= 5" class="admin">管理后台</Link>
   </div>
