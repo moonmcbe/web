@@ -13,7 +13,7 @@ const pagination = ref({
   page: 1,
   pageSize: 8,
   showSizePicker: true,
-  pageSizes: [5, 8, 10],
+  pageSizes: [5, 8, 10, 50, 100],
   onChange: (page: number) => {
     pagination.value.page = page
   },
@@ -241,14 +241,8 @@ const loadOldPlayer = () => {
     显示其他渠道玩家
     <n-checkbox v-model:checked="oldPlayer" @update:checked="loadOldPlayer"></n-checkbox>
   </div>
-  <n-data-table
-    class="table"
-    :columns="columns"
-    :data="filter"
-    :bordered="false"
-    :scroll-x="1000"
-    :pagination="pagination"
-  />
+  <n-data-table class="table" :columns="columns" :data="filter" :bordered="false" :scroll-x="1000"
+                :pagination="pagination" />
 </template>
 
 <style lang="less" scoped>
