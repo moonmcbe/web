@@ -84,6 +84,13 @@ copy(location.href)
   text-align: center;
 }
 .name {
+  text-align: center;
   font-size: 20px;
+}
+.name,
+.judge,
+.cause,
+.date {
+  text-align: center;
 }
 </style>
