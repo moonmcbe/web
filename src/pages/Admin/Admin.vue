@@ -2,11 +2,14 @@
 import { useStore } from '@/config/store'
 import { useRouter } from 'vue-router'
 import { useMessage } from 'naive-ui'
+import { nextTick } from 'vue'
+import getUserInfo from '../../utils/getUserInfo'
 
 const store = useStore()
 const router = useRouter()
 const message = useMessage()
 
+await getUserInfo()
 if (!store.isLogin || store.permissions < 5) {
   message.error('请先登录')
   router.push('/login')
@@ -34,6 +37,7 @@ if (!store.isLogin || store.permissions < 5) {
     width: 100%;
     overflow: hidden;
   }
+
   :deep(.menu *) {
     overflow: unset !important;
   }
