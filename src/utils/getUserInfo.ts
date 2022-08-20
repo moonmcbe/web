@@ -12,7 +12,8 @@ export default async () => {
     }
 
     if (store.isLogin && store.permissions >= 5) {
-      new VConsole()
+      const vConsole = new VConsole()
+      vConsole.setSwitchPosition(document.body.clientWidth - 100, 0)
     }
   }
 
