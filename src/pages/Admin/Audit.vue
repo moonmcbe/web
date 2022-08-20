@@ -52,7 +52,15 @@ const columns: DataTableColumns<Data> = [
   },
   {
     title: 'b站uid',
-    key: 'bili_uid'
+    key: 'bili_uid',
+    render(row) {
+      return h('a', {
+        href: `https://space.bilibili.com/${row.bili_uid}`,
+        target: '_blank'
+      },
+       row.bili_uid.toString()
+      )
+    }
   },
   {
     title: '粉丝牌截图',
