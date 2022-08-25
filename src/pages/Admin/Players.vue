@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { get as getApi } from '@/apis/players'
+import editNameApi from '@/apis/editName'
 import { ref, h, watch } from 'vue'
 import dayjs from 'dayjs'
 import type { DataTableColumns } from 'naive-ui'
-import { NTag, useDialog, useLoadingBar } from 'naive-ui'
+import { NTag, useDialog, useLoadingBar, NButton, useMessage } from 'naive-ui'
 
 const data = ref<Data[]>([])
 const keyword = ref('')
@@ -24,6 +25,7 @@ const pagination = ref({
 })
 const dialog = useDialog()
 const loadingbar = useLoadingBar()
+const message = useMessage()
 
 const init = async () => {
   loadingbar.start()
@@ -34,23 +36,23 @@ const init = async () => {
 init()
 
 interface Data {
-  id: number;
-  name: string;
-  date: string;
-  user_id: number;
-  status: number;
-  qq?: any;
-  credit_points?: number;
-  join_type: number;
-  score?: number;
-  xuid?: string;
+  id: number
+  name: string
+  date: string
+  user_id: number
+  status: number
+  qq?: any
+  credit_points?: number
+  join_type: number
+  score?: number
+  xuid?: string
 }
 
 watch([() => keyword.value, () => data.value], ([keyword, data]) => {
   if (keyword.trim() == '') {
     filter.value = data
   } else {
-    filter.value = data.filter(e => {
+    filter.value = data.filter((e) => {
       return !(
         (e.name || '')?.toLowerCase().indexOf(keyword.toLowerCase()) == -1 &&
         (e.qq || '')?.indexOf(keyword) == -1 &&
@@ -120,9 +122,13 @@ const columns: DataTableColumns<Data> = [
         data.text = '其他'
       }
 
-      return h(NTag, {
-        type: data.type
-      }, () => data.text)
+      return h(
+        NTag,
+        {
+          type: data.type
+        },
+        () => data.text
+      )
     }
   },
   {
@@ -135,7 +141,6 @@ const columns: DataTableColumns<Data> = [
   {
     title: '信誉积分',
     key: 'credit_points'
-
   },
   {
     title: '来源',
@@ -182,56 +187,80 @@ const columns: DataTableColumns<Data> = [
   {
     title: '分数',
     key: 'score'
+  },
+  {
+    title: '改名字',
+    key: '改名字',
+    render(row) {
+      return h('div', {}, [
+        h(
+          NButton,
+          {
+            type: 'success',
+            onClick: () => editName.open(row.id, row.name)
+          },
+          () => '改名字'
+        )
+      ])
+    }
   }
-  // {
-  //   title: '操作',
-  //   key: '操作',
-  //   render(row) {
-
-  //     return h('div', {},
-  //       [
-  //         h(
-  //           NButton,
-  //           {
-  //             type: 'success',
-  //             onClick: () => allow(row.id, true)
-  //           },
-  //           () => '通过'
-  //         ),
-  //         h(
-  //           NButton,
-  //           {
-  //             type: 'error',
-  //             onClick: () => allow(row.id, false)
-  //           },
-  //           () => '拒绝')
-  //       ]
-  //     )
-  //   }
-  // }
 ]
 
 const loadOldPlayer = () => {
   if (oldPlayer.value) {
     dialog.warning({
       title: '即将加载所有玩家数据',
-      content: () => h('div', {}, [
-        h('div', {}, '咱就是说 又可以换行了'),
-        h('div', {}, '①即将加载所有玩家，数据过大，加载时间较长，请耐心等待'),
-        h('div', {}, '②由于时间跨度较大，部分数据可能不准确，仅供参考'),
-        h('div', {}, '③分数、来源、信用分等均为历史数据')
-      ]),
+      content: () =>
+        h('div', {}, [
+          h('div', {}, '咱就是说 又可以换行了'),
+          h('div', {}, '①即将加载所有玩家，数据过大，加载时间较长，请耐心等待'),
+          h('div', {}, '②由于时间跨度较大，部分数据可能不准确，仅供参考'),
+          h('div', {}, '③分数、来源、信用分等均为历史数据')
+        ]),
       positiveText: '确定',
       negativeText: '不确定',
       onPositiveClick: () => {
-        // 
+        //
       },
       onNegativeClick: () => {
-        // 
+        //
       }
     })
   }
   init()
+}
+const editName = {
+  show: ref(false),
+  id: ref(0),
+  newName: ref(''),
+  oldName: ref(''),
+  open(id: number, oldName: string) {
+    this.id.value = id
+    this.newName.value = ''
+    this.oldName.value = oldName
+    this.show.value = true
+  },
+  async submit() {
+    loadingbar.start()
+    const { data: res } = await editNameApi(
+      this.id.value.toString(),
+      this.newName.value
+    )
+    console.log(res)
+    if (res.code == 200) {
+      message.success('修改成功')
+    } else {
+      message.warning(`${res.code} ${res.msg}`)
+    }
+    loadingbar.finish()
+    init()
+  },
+  cancel() {
+    this.id.value = 0
+    this.newName.value = ''
+    this.oldName.value = ''
+    this.show.value = false
+  }
 }
 </script>
 
@@ -239,11 +268,33 @@ const loadOldPlayer = () => {
   <n-input v-model:value="keyword" placeholder="过滤name/qq/id"></n-input>
   <div>
     显示其他渠道玩家
-    <n-checkbox v-model:checked="oldPlayer" @update:checked="loadOldPlayer"></n-checkbox>
+    <n-checkbox
+      v-model:checked="oldPlayer"
+      @update:checked="loadOldPlayer"
+    ></n-checkbox>
   </div>
-  <n-data-table class="table" :columns="columns" :data="filter" :bordered="false" :scroll-x="1000"
-                :pagination="pagination" />
+  <n-data-table
+    class="table"
+    :columns="columns"
+    :data="filter"
+    :bordered="false"
+    :scroll-x="1000"
+    :pagination="pagination"
+  />
+  <n-modal
+    v-model:show="editName.show.value"
+    preset="dialog"
+    title="改名字"
+    positive-text="确认"
+    negative-text="算了"
+    @positive-click="() => editName.submit()"
+    @negative-click="() => editName.cancel()"
+  >
+    <n-input :value="editName.oldName.value" readonly />
+    <br />
+    <br />
+    <n-input placeholder="新名字" v-model:value="editName.newName.value" />
+  </n-modal>
 </template>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>
