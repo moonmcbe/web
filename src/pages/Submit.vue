@@ -1,20 +1,15 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import {
-  FormInst,
-  FormItemRule,
-  useMessage,
-  FormRules
-} from 'naive-ui'
+import { FormInst, FormItemRule, useMessage, FormRules } from 'naive-ui'
 import type { UploadFileInfo } from 'naive-ui'
 import submitApi from '../apis/submit'
 import { useRouter } from 'vue-router'
 
 interface ModelType {
   name: string | null
-  qq: string | null,
-  bili_username: string | null,
-  bili_uid: string | null,
+  qq: string | null
+  bili_username: string | null
+  bili_uid: string | null
   upload: string | null
 }
 
@@ -118,7 +113,10 @@ const beforeUpload = (data: {
   file: UploadFileInfo
   fileList: UploadFileInfo[]
 }) => {
-  if (data.file.file?.type !== 'image/png' && data.file.file?.type !== 'image/jpeg') {
+  if (
+    data.file.file?.type !== 'image/png' &&
+    data.file.file?.type !== 'image/jpeg'
+  ) {
     message.error('只能上传png和jpg格式的图片文件，请重新上传')
     return false
   }
@@ -135,12 +133,12 @@ const handleFinish = ({
   const response = JSON.parse((event?.target as XMLHttpRequest).response)
   console.log(response)
   if (response.code == 200) {
-    model.value.upload = '//' + response.Location as string
+    model.value.upload = ('//' + response.Location) as string
     return {
       ...file,
       ...{
         name: response.fileName,
-        url: (response.url as string)
+        url: response.url as string
       }
     }
   } else {
@@ -151,6 +149,9 @@ const handleFinish = ({
 
 <template>
   <steps />
+  <div class="red">
+    由于服务器变动，暂停白名单审核，期间您仍然可以申请，预计会在半个月后统一审核
+  </div>
   <n-form ref="formRef" :model="model" :rules="rules">
     <n-form-item path="name" label="游戏id">
       <n-input v-model:value="model.name" @keydown.enter.prevent />
@@ -182,7 +183,8 @@ const handleFinish = ({
             round
             type="primary"
             @click="handleValidateButtonClick"
-          >提交</n-button>
+            >提交</n-button
+          >
         </div>
       </n-col>
     </n-row>
@@ -190,6 +192,9 @@ const handleFinish = ({
 </template>
 
 <style lang="less" scoped>
+.red {
+  color: red;
+}
 .n-form {
   padding: 5px;
   box-sizing: border-box;
