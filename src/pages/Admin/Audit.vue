@@ -48,7 +48,15 @@ const columns: DataTableColumns<Data> = [
   },
   {
     title: 'b站用户名',
-    key: 'bili_username'
+    key: 'bili_username',
+    render(row) {
+      return h('a', {
+        href: `https://search.bilibili.com/upuser?keyword=${row.bili_username}`,
+        target: '_blank'
+      },
+        row.bili_username
+      )
+    }
   },
   {
     title: 'b站uid',
@@ -58,7 +66,7 @@ const columns: DataTableColumns<Data> = [
         href: `https://space.bilibili.com/${row.bili_uid}`,
         target: '_blank'
       },
-       row.bili_uid.toString()
+        row.bili_uid.toString()
       )
     }
   },

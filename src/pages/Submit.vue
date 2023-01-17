@@ -149,9 +149,7 @@ const handleFinish = ({
 
 <template>
   <steps />
-  <div class="red">
-    由于服务器变动，暂停白名单审核，期间您仍然可以申请，预计会在半个月后统一审核
-  </div>
+  <div class="red"></div>
   <n-form ref="formRef" :model="model" :rules="rules">
     <n-form-item path="name" label="游戏id">
       <n-input v-model:value="model.name" @keydown.enter.prevent />
@@ -166,25 +164,14 @@ const handleFinish = ({
       <n-input v-model:value="model.bili_uid" @keydown.enter.prevent />
     </n-form-item>
     <n-form-item path="upload" label="粉丝牌截图">
-      <n-upload
-        :action="uploadUrl"
-        @finish="handleFinish"
-        @before-upload="beforeUpload"
-        list-type="image-card"
-        directory-dnd
-        :max="1"
-      />
+      <n-upload :action="uploadUrl" @finish="handleFinish" @before-upload="beforeUpload" list-type="image-card"
+        directory-dnd :max="1" />
     </n-form-item>
     <n-row :gutter="[0, 24]">
       <n-col :span="24">
         <div style="display: flex; justify-content: flex-end">
-          <n-button
-            :disabled="model.name === null"
-            round
-            type="primary"
-            @click="handleValidateButtonClick"
-            >提交</n-button
-          >
+          <n-button :disabled="model.name === null" round type="primary"
+            @click="handleValidateButtonClick">提交</n-button>
         </div>
       </n-col>
     </n-row>
@@ -195,6 +182,7 @@ const handleFinish = ({
 .red {
   color: red;
 }
+
 .n-form {
   padding: 5px;
   box-sizing: border-box;

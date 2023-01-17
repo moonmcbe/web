@@ -56,10 +56,10 @@ check()
 <template>
   <steps :current="2" />
   <div class="form">
-    <p>请使用填写的qq号向群中的 人工智障 发送“获取验证码”</p>
+    <p>请使用填写的qq号向群中的 人工智障 私聊发送“获取验证码”</p>
 
     <p>
-      若需退出当前界面，请复制链接，以便继续操作
+      若需退出当前界面，建议复制链接，以便继续操作
       <n-input-group @click="copyHref">
         <n-input :value="href" readonly />
         <n-button>
