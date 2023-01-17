@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import { get as getApi } from '@/apis/players'
+import setStatusApi from '@/apis/setStatus'
 import editNameApi from '@/apis/editName'
 import { ref, h, watch } from 'vue'
 import dayjs from 'dayjs'
 import type { DataTableColumns } from 'naive-ui'
 import { NTag, useDialog, useLoadingBar, NButton, useMessage } from 'naive-ui'
+import statusType, { statusTypes } from '@/utils/statusType'
 
 const data = ref<Data[]>([])
 const keyword = ref('')
@@ -94,44 +96,12 @@ const columns: DataTableColumns<Data> = [
     title: '状态',
     key: 'status',
     render(row: Data) {
-      const data: {
-        type?: 'default' | 'error' | 'primary' | 'info' | 'success' | 'warning'
-        text: string
-      } = {
-        type: undefined,
-        text: ''
-      }
-      if (row.status == 0) {
-        data.type = undefined
-        data.text = '未验证'
-      }
-      if (row.status == 1) {
-        data.type = 'success'
-        data.text = '正常'
-      }
-      if (row.status == 2) {
-        data.type = 'warning'
-        data.text = '临时封禁'
-      }
-      if (row.status == 3) {
-        data.type = 'error'
-        data.text = '永久封禁'
-      }
-      if (row.status == 4) {
-        data.type = 'info'
-        data.text = '其他'
-      }
-      if (row.status == 5) {
-        data.type = 'info'
-        data.text = '退群'
-      }
-
       return h(
         NTag,
         {
-          type: data.type
+          type: statusType(row.status).type
         },
-        () => data.text
+        () => statusType(row.status).text
       )
     }
   },
@@ -193,8 +163,8 @@ const columns: DataTableColumns<Data> = [
     key: 'score'
   },
   {
-    title: '改名字',
-    key: '改名字',
+    title: '操作',
+    key: '操作',
     render(row) {
       return h('div', {}, [
         h(
@@ -205,7 +175,15 @@ const columns: DataTableColumns<Data> = [
           },
           () => '改名字'
         )
-      ])
+        ,
+        h(
+          NButton,
+          {
+            type: 'success',
+            onClick: () => editStatus.open(row.id, row.status, row.name)
+          },
+          () => '改状态'
+        )])
     }
   }
 ]
@@ -266,6 +244,54 @@ const editName = {
     this.show.value = false
   }
 }
+const editStatus = {
+  show: ref(false),
+  id: ref(0),
+  name: ref(''),
+  duration: ref(0),
+  cause: ref(''),
+  note: ref(''),
+  oldStatus: ref(0),
+  newStatus: ref(0),
+  options: statusTypes.map((e, i) => {
+    return {
+      label: i + e.text,
+      value: i
+    }
+  }),
+  open(id: number, oldStatus: number, name: string) {
+    this.oldStatus.value = oldStatus
+    this.newStatus.value = oldStatus
+    this.id.value = id
+    this.name.value = name
+    this.show.value = true
+  },
+  cancel() {
+    this.oldStatus.value = 0
+    this.newStatus.value = 0
+    this.id.value = 0
+    this.name.value = ''
+    this.show.value = false
+  },
+  async submit() {
+    loadingbar.start()
+    const { data: res } = await setStatusApi(
+      this.id.value.toString(),
+      this.newStatus.value,
+      this.duration.value,
+      this.note.value,
+      this.cause.value
+    )
+    console.log(res)
+    if (res.code == 200) {
+      message.success('修改成功')
+    } else {
+      message.warning(`${res.code} ${res.msg}`)
+    }
+    loadingbar.finish()
+    init()
+  }
+}
 </script>
 
 <template>
@@ -283,8 +309,55 @@ const editName = {
     <br />
     <n-input placeholder="新名字" v-model:value="editName.newName.value" />
   </n-modal>
+  <n-modal v-model:show="editStatus.show.value" preset="dialog" title="改状态" positive-text="确认" negative-text="算了"
+    @positive-click="() => editStatus.submit()" @negative-click="() => editStatus.cancel()">
+    <n-space vertical>
+      <div class="title">
+        将{{ editStatus.id }} {{ editStatus.name }} 的状态从
+        <n-tag :type="statusType(editStatus.oldStatus.value).type">
+          {{ statusType(editStatus.oldStatus.value).text }}
+        </n-tag>
+        修改为：
+      </div>
+      <n-select v-model:value="editStatus.newStatus.value" :options="editStatus.options" />
+      <template v-if="editStatus.newStatus.value == 1">
+        将添加白名单
+      </template>
+      <template v-else>
+        将删除白名单
+      </template>
+      <template v-if="editStatus.newStatus.value == 5">
+        玩家重新进群，可自助添加白名单
+      </template>
+      <template v-if="editStatus.newStatus.value == 2 || editStatus.newStatus.value == 3">
+        封禁持续时间，单位毫秒(1000ms = 1s)
+        <n-input v-model:value="editStatus.duration" placeholder="封禁持续时间，单位毫秒"></n-input>
+        <div class="buttons">
+          <n-button @click="editStatus.duration.value = 86400000">1天</n-button>
+          <n-button @click="editStatus.duration.value = 259200000">3天</n-button>
+          <n-button @click="editStatus.duration.value = 432000000">5天</n-button>
+          <n-button @click="editStatus.duration.value = 604800000">7天</n-button>
+          <n-button @click="editStatus.duration.value = 864000000">10天</n-button>
+          <n-button @click="editStatus.duration.value = 2592000000">30天</n-button>
+        </div>
+        原因（将会向玩家展示）
+        <n-input v-model:value="editStatus.cause" placeholder="原因（将会向玩家展示）"></n-input>
+        备注（不会向玩家展示），请完整详细填写
+        <n-input v-model:value="editStatus.cause" placeholder="备注（不会向玩家展示）"></n-input>
+      </template>
+    </n-space>
+  </n-modal>
 </template>
 
 <style lang="less" scoped>
+.title {
+  display: flex;
+  align-items: center;
+}
 
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
 </style>
