@@ -121,6 +121,10 @@ const columns: DataTableColumns<Data> = [
         data.type = 'info'
         data.text = '其他'
       }
+      if (row.status == 5) {
+        data.type = 'info'
+        data.text = '退群'
+      }
 
       return h(
         NTag,
@@ -268,28 +272,12 @@ const editName = {
   <n-input v-model:value="keyword" placeholder="过滤name/qq/id"></n-input>
   <div>
     显示其他渠道玩家
-    <n-checkbox
-      v-model:checked="oldPlayer"
-      @update:checked="loadOldPlayer"
-    ></n-checkbox>
+    <n-checkbox v-model:checked="oldPlayer" @update:checked="loadOldPlayer"></n-checkbox>
   </div>
-  <n-data-table
-    class="table"
-    :columns="columns"
-    :data="filter"
-    :bordered="false"
-    :scroll-x="1000"
-    :pagination="pagination"
-  />
-  <n-modal
-    v-model:show="editName.show.value"
-    preset="dialog"
-    title="改名字"
-    positive-text="确认"
-    negative-text="算了"
-    @positive-click="() => editName.submit()"
-    @negative-click="() => editName.cancel()"
-  >
+  <n-data-table class="table" :columns="columns" :data="filter" :bordered="false" :scroll-x="1000"
+    :pagination="pagination" />
+  <n-modal v-model:show="editName.show.value" preset="dialog" title="改名字" positive-text="确认" negative-text="算了"
+    @positive-click="() => editName.submit()" @negative-click="() => editName.cancel()">
     <n-input :value="editName.oldName.value" readonly />
     <br />
     <br />
@@ -297,4 +285,6 @@ const editName = {
   </n-modal>
 </template>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+
+</style>
