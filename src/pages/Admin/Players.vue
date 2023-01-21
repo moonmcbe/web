@@ -248,7 +248,7 @@ const editStatus = {
   show: ref(false),
   id: ref(0),
   name: ref(''),
-  duration: ref(0),
+  duration: ref('0'),
   cause: ref(''),
   note: ref(''),
   oldStatus: ref(0),
@@ -331,19 +331,19 @@ const editStatus = {
       </template>
       <template v-if="editStatus.newStatus.value == 2 || editStatus.newStatus.value == 3">
         封禁持续时间，单位毫秒(1000ms = 1s)
-        <n-input v-model:value="editStatus.duration" placeholder="封禁持续时间，单位毫秒"></n-input>
+        <n-input v-model:value="editStatus.duration.value" placeholder="封禁持续时间，单位毫秒"></n-input>
         <div class="buttons">
-          <n-button @click="editStatus.duration.value = 86400000">1天</n-button>
-          <n-button @click="editStatus.duration.value = 259200000">3天</n-button>
-          <n-button @click="editStatus.duration.value = 432000000">5天</n-button>
-          <n-button @click="editStatus.duration.value = 604800000">7天</n-button>
-          <n-button @click="editStatus.duration.value = 864000000">10天</n-button>
-          <n-button @click="editStatus.duration.value = 2592000000">30天</n-button>
+          <n-button @click="editStatus.duration.value = '86400000'">1天</n-button>
+          <n-button @click="editStatus.duration.value = '259200000'">3天</n-button>
+          <n-button @click="editStatus.duration.value = '432000000'">5天</n-button>
+          <n-button @click="editStatus.duration.value = '604800000'">7天</n-button>
+          <n-button @click="editStatus.duration.value = '864000000'">10天</n-button>
+          <n-button @click="editStatus.duration.value = '2592000000'">30天</n-button>
         </div>
         原因（将会向玩家展示）
-        <n-input v-model:value="editStatus.cause" placeholder="原因（将会向玩家展示）"></n-input>
+        <n-input v-model:value="editStatus.cause.value" placeholder="原因（将会向玩家展示）"></n-input>
         备注（不会向玩家展示），请完整详细填写
-        <n-input v-model:value="editStatus.cause" placeholder="备注（不会向玩家展示）"></n-input>
+        <n-input v-model:value="editStatus.note.value" placeholder="备注（不会向玩家展示）"></n-input>
       </template>
     </n-space>
   </n-modal>

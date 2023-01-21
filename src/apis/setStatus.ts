@@ -3,7 +3,7 @@ import request from '../utils/request'
 export default (
   id: string,
   newStatus: number,
-  duration: number,
+  duration: number | string,
   note: string,
   cause: string
 ) =>
@@ -13,7 +13,7 @@ export default (
     data: {
       id,
       newStatus,
-      duration,
+      duration: Number(duration),
       note,
       cause
     }
