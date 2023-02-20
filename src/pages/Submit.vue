@@ -11,6 +11,7 @@ interface ModelType {
   bili_username: string | null
   bili_uid: string | null
   upload: string | null
+  email: string | null
 }
 
 const router = useRouter()
@@ -21,7 +22,8 @@ const model = ref<ModelType>({
   qq: null,
   bili_username: null,
   bili_uid: null,
-  upload: null
+  upload: null,
+  email: null
 })
 
 const rules: FormRules = {
@@ -47,6 +49,22 @@ const rules: FormRules = {
           return new Error('请填写qq')
         } else if (!/^[1-9][0-9]{4,10}$/.test(value)) {
           return new Error('请输入正确的qq')
+        }
+        return true
+      },
+      trigger: ['input', 'blur']
+    }
+  ],
+  email: [
+    {
+      required: false,
+      validator(rule: FormItemRule, value: string) {
+        if (
+          !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+            value
+          )
+        ) {
+          return new Error('请输入正确的邮箱')
         }
         return true
       },
@@ -157,6 +175,9 @@ const handleFinish = ({
     <n-form-item path="qq" label="qq">
       <n-input v-model:value="model.qq" @keydown.enter.prevent />
     </n-form-item>
+    <n-form-item path="email" label="邮箱">
+      <n-input v-model:value="model.email" @keydown.enter.prevent placeholder="选填，填写后可接收审核通知" />
+    </n-form-item>
     <n-form-item path="bili_username" label="b站用户名">
       <n-input v-model:value="model.bili_username" @keydown.enter.prevent />
     </n-form-item>
@@ -164,14 +185,25 @@ const handleFinish = ({
       <n-input v-model:value="model.bili_uid" @keydown.enter.prevent />
     </n-form-item>
     <n-form-item path="upload" label="粉丝牌截图">
-      <n-upload :action="uploadUrl" @finish="handleFinish" @before-upload="beforeUpload" list-type="image-card"
-        directory-dnd :max="1" />
+      <n-upload
+        :action="uploadUrl"
+        @finish="handleFinish"
+        @before-upload="beforeUpload"
+        list-type="image-card"
+        directory-dnd
+        :max="1"
+      />
     </n-form-item>
     <n-row :gutter="[0, 24]">
       <n-col :span="24">
         <div style="display: flex; justify-content: flex-end">
-          <n-button :disabled="model.name === null" round type="primary"
-            @click="handleValidateButtonClick">提交</n-button>
+          <n-button
+            :disabled="model.name === null"
+            round
+            type="primary"
+            @click="handleValidateButtonClick"
+            >提交</n-button
+          >
         </div>
       </n-col>
     </n-row>
