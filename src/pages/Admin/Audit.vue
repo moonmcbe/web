@@ -23,8 +23,9 @@ const showModal = ref(false)
 const cause = ref('')
 const id = ref(-1)
 const text = [
-  '无法验证粉丝牌',
-  'id格式有误'
+  '无法验证粉丝牌，请规范上传图片，可查看“常见问题”中的示例，可修改后重新申请',
+  'id格式有误，请正确填写游戏id，请修改后重新申请',
+  'b站用户名与uid不符，请核对后重新申请'
 ]
 
 const init = async () => {
