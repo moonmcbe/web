@@ -17,6 +17,7 @@ interface ModelType {
 const router = useRouter()
 const formRef = ref<FormInst | null>(null)
 const message = useMessage()
+const loading = ref(false)
 const model = ref<ModelType>({
   name: null,
   qq: null,
@@ -107,6 +108,7 @@ const rules: FormRules = {
 }
 
 function handleValidateButtonClick(e: MouseEvent) {
+  loading.value = true
   e.preventDefault()
   formRef.value?.validate(async (errors) => {
     if (!errors) {
@@ -122,6 +124,7 @@ function handleValidateButtonClick(e: MouseEvent) {
       console.log(errors)
       message.error('表单填写不规范')
     }
+    loading.value = false
   })
 }
 
@@ -202,7 +205,7 @@ const handleFinish = ({
       <n-col :span="24">
         <div style="display: flex; justify-content: flex-end">
           <n-button
-            :disabled="model.name === null"
+            :disabled="model.name === null || loading"
             round
             type="primary"
             @click="handleValidateButtonClick"
