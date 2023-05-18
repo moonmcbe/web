@@ -4,6 +4,7 @@ import { FormInst, FormItemRule, useMessage, FormRules } from 'naive-ui'
 import type { UploadFileInfo } from 'naive-ui'
 import submitApi from '../apis/submit'
 import { useRouter } from 'vue-router'
+import { throttle } from '../utils/throttle'
 
 interface ModelType {
   name: string | null
@@ -108,24 +109,10 @@ const rules: FormRules = {
 }
 
 function handleValidateButtonClick(e: MouseEvent) {
+  if (loading.value) return
   loading.value = true
   e.preventDefault()
-  formRef.value?.validate(async (errors) => {
-    if (!errors) {
-      // message.success('验证成功')
-      const { data: res } = await submitApi(model.value)
-      if (res.code == 200) {
-        message.success('提交成功')
-        router.push({
-          path: `/validation/${res.id}`
-        })
-      }
-    } else {
-      console.log(errors)
-      message.error('表单填写不规范')
-    }
-    loading.value = false
-  })
+  submit()
 }
 
 const uploadUrl = `${import.meta.env.VITE_APP_ApiBaseurl}/upload`
@@ -166,6 +153,25 @@ const handleFinish = ({
     message.error('上传失败，请稍后再试')
   }
 }
+
+const submit = throttle(() => {
+  formRef.value?.validate(async (errors) => {
+    if (!errors) {
+      // message.success('验证成功')
+      const { data: res } = await submitApi(model.value)
+      if (res.code == 200) {
+        message.success('提交成功')
+        router.push({
+          path: `/validation/${res.id}`
+        })
+      }
+    } else {
+      console.log(errors)
+      message.error('表单填写不规范')
+      loading.value = false
+    }
+  })
+}, 100)
 </script>
 
 <template>
