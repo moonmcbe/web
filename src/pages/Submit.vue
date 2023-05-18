@@ -62,7 +62,8 @@ const rules: FormRules = {
         if (
           !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
             value
-          )
+          ) &&
+          value !== null
         ) {
           return new Error('请输入正确的邮箱')
         }
@@ -176,7 +177,11 @@ const handleFinish = ({
       <n-input v-model:value="model.qq" @keydown.enter.prevent />
     </n-form-item>
     <n-form-item path="email" label="邮箱">
-      <n-input v-model:value="model.email" @keydown.enter.prevent placeholder="选填，填写后可接收审核通知" />
+      <n-input
+        v-model:value="model.email"
+        @keydown.enter.prevent
+        placeholder="选填，填写后可接收审核通知"
+      />
     </n-form-item>
     <n-form-item path="bili_username" label="b站用户名">
       <n-input v-model:value="model.bili_username" @keydown.enter.prevent />

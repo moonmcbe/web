@@ -15,6 +15,7 @@ type Data = {
   status: number;
   date: string;
   judge?: any;
+  email?: string
 }
 
 const data = ref<Data[]>([])
@@ -46,6 +47,10 @@ const columns: DataTableColumns<Data> = [
   {
     title: 'qq',
     key: 'qq'
+  },
+  {
+    title: '邮箱',
+    key: 'email'
   },
   {
     title: 'b站用户名',
